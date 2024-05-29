@@ -1,6 +1,6 @@
 # Unreal Injects
 
-Unreal Engine のための Dependency Injection プラグイン。 Unreal Engine の Object / Property リフレクションの基づいて、依存性の解決と注入、インスタンスのライフサイクル管理を行う。
+Unreal Engine のための Dependency Injection プラグイン。 Unreal Engine の Object / Property リフレクションに基づいて、依存性の解決と注入、インスタンスのライフサイクル管理を行う。
 
 このプラグインは現在開発中で、安定版はリリースされていません。
 
