@@ -2,6 +2,8 @@
 
 Unreal Engine のための Dependency Injection プラグイン。 Unreal Engine の Object / Property リフレクションの基づいて、依存性の解決と注入、インスタンスのライフサイクル管理を行う。
 
+このプラグインは現在開発中で、安定版はリリースされていません。
+
 ## Features
 
 - [x] Blueprint / C++ で実装された UObject と UInterface の依存性の解決と注入
