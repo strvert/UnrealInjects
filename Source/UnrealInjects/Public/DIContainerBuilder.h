@@ -6,7 +6,7 @@
 #include "DIContainerBuilder.generated.h"
 
 class UDIContainer;
-class UDIContainerBuilderSettings;
+class UDITypeRegistrationAsset;
 
 UCLASS(BlueprintType)
 class UNREALINJECTS_API UDIContainerBuilder : public UObject
@@ -21,9 +21,9 @@ public:
 	UDIContainer* BuildContainer();
 
 	UFUNCTION(BlueprintCallable, Category = "Dependency Injection")
-	void RegisterTypesByAsset(UDIContainerBuilderSettings* InSettingsAsset);
+	void RegisterTypesByAsset(UDITypeRegistrationAsset* InSettingsAsset);
 
-	UFUNCTION(BlueprintCallable, Category = "Dependency Injection", meta = (GameplayTagFilter = "DependencyInjection.Container"))
+	UFUNCTION(BlueprintCallable, Category = "Dependency Injection", meta = (GameplayTagFilter = "UnrealInjects.Container"))
 	void SetParentContainerTag(const FGameplayTag InParentContainerTag);
 
 	UFUNCTION(BlueprintCallable, Category = "Dependency Injection")
@@ -31,10 +31,10 @@ public:
 
 private:
 	static void InitialResolve(UDIContainer* Container);
-	static void RegisterTypesBySettingsToContainer(UDIContainer* Container, UDIContainerBuilderSettings* Settings);
+	static void RegisterTypesBySettingsToContainer(UDIContainer* Container, UDITypeRegistrationAsset* Settings);
 
 	UPROPERTY()
-	TObjectPtr<UDIContainerBuilderSettings> Settings;
+	TObjectPtr<UDITypeRegistrationAsset> Settings;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UObject>> AutoInjectObjects;

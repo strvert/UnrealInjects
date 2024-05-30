@@ -9,7 +9,7 @@ public class UnrealInjectsEditor : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
+				"Core"
 			}
 		);
 
@@ -24,7 +24,8 @@ public class UnrealInjectsEditor : ModuleRules
 				"ToolMenus",
 				"WorkspaceMenuStructure",
 				"UnrealEd",
-				"UnrealInjects"
+				"UnrealInjects",
+				"AssetTools"
 			}
 		);
 	}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DIContainerBuilderSettings.h"
+#include "DITypeRegistrationAsset.h"
 #include "DIContainerLifetime.h"
 #include "DIContainer.generated.h"
 

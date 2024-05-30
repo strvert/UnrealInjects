@@ -1,6 +1,6 @@
 #include "DIContainerBuilder.h"
 
-#include "DIContainerBuilderSettings.h"
+#include "DITypeRegistrationAsset.h"
 #include "DIContainer.h"
 #include "DILogChannels.h"
 #include "DITaggedContainerRegistry.h"
@@ -53,7 +53,7 @@ UDIContainer* UDIContainerBuilder::BuildContainer()
 	return Container;
 }
 
-void UDIContainerBuilder::RegisterTypesByAsset(UDIContainerBuilderSettings* InSettingsAsset)
+void UDIContainerBuilder::RegisterTypesByAsset(UDITypeRegistrationAsset* InSettingsAsset)
 {
 	Settings = InSettingsAsset;
 }
@@ -78,7 +78,7 @@ void UDIContainerBuilder::InitialResolve(UDIContainer* Container)
 }
 
 void UDIContainerBuilder::RegisterTypesBySettingsToContainer(UDIContainer* Container,
-                                                             UDIContainerBuilderSettings* Settings)
+                                                             UDITypeRegistrationAsset* Settings)
 {
 	for (const TObjectPtr<UDIRegisterType>& RegisterType : Settings->RegisterTypes)
 	{

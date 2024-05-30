@@ -11,8 +11,8 @@ struct FDIManagedContainerSetting
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, meta = (AllowedClasses = "/Script/UnrealInjects.DIContainerBuilderSettings"))
-	FSoftObjectPath SettingAssetPath;
+	UPROPERTY(EditAnywhere, meta = (AllowedClasses = "/Script/UnrealInjects.DITypeRegistrationAsset"))
+	FSoftObjectPath TypeRegistrationAssetPath;
 };
 
 USTRUCT()

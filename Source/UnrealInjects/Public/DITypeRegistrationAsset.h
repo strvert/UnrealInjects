@@ -1,11 +1,11 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "DIContainerBuilderSettings.generated.h"
+#include "DITypeRegistrationAsset.generated.h"
 
 class UDIRegisterType;
 
 UCLASS(BlueprintType, MinimalAPI)
-class UDIContainerBuilderSettings : public UDataAsset
+class UDITypeRegistrationAsset : public UDataAsset
 {
 	GENERATED_BODY()
 

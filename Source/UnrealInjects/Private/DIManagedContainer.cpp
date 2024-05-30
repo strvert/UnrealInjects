@@ -2,17 +2,17 @@
 
 #include "DIContainer.h"
 #include "DIContainerBuilder.h"
-#include "DIContainerBuilderSettings.h"
+#include "DITypeRegistrationAsset.h"
 #include "DITaggedContainerRegistry.h"
 
 void BuildAndRegisterContainer(UDIContainerBuilder* Builder,
                                UDITaggedContainerRegistry& TaggedContainerRegistry,
-                               const FSoftObjectPath& SettingAssetPath,
+                               const FSoftObjectPath& TypeRegistrationAssetPath,
                                const FGameplayTag& ParentContainerTag,
                                const FGameplayTag& ContainerTag,
                                TArray<TObjectPtr<UDIContainer>>& ManagedContainers)
 {
-	if (UDIContainerBuilderSettings* SettingAsset = Cast<UDIContainerBuilderSettings>(SettingAssetPath.TryLoad()))
+	if (UDITypeRegistrationAsset* SettingAsset = Cast<UDITypeRegistrationAsset>(TypeRegistrationAssetPath.TryLoad()))
 	{
 		Builder->RegisterTypesByAsset(SettingAsset);
 		Builder->SetParentContainerTag(ParentContainerTag);
@@ -36,12 +36,12 @@ void UDIContainerGameInstanceSubsystem::Initialize(FSubsystemCollectionBase& Col
 	for (const UDISettings* Settings = GetDefault<UDISettings>();
 	     const FDIManagedContainerSetting_GameInstance& ContainerSetting : Settings->ManagedContainersForGameInstance)
 	{
-		const FSoftObjectPath& SettingAssetPath = ContainerSetting.SettingAssetPath;
+		const FSoftObjectPath& TypeRegistrationAssetPath = ContainerSetting.TypeRegistrationAssetPath;
 		const FGameplayTag& ContainerTag = ContainerSetting.ContainerTag;
 
 		UDIContainerBuilder* Builder = UDIContainerBuilder::MakeContainerBuilder(this);
 		BuildAndRegisterContainer(Builder, *TaggedContainerRegistry,
-		                          SettingAssetPath, FGameplayTag::EmptyTag, ContainerTag,
+		                          TypeRegistrationAssetPath, FGameplayTag::EmptyTag, ContainerTag,
 		                          ManagedContainers);
 
 		if (ContainerTag.IsValid())
@@ -87,7 +87,7 @@ void UDIContainerWorldSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 
 	for (const FDIManagedContainerSetting_World& ContainerSetting : UserData->ManagedContainers)
 	{
-		const FSoftObjectPath& SettingAssetPath = ContainerSetting.SettingAssetPath;
+		const FSoftObjectPath& TypeRegistrationAssetPath = ContainerSetting.TypeRegistrationAssetPath;
 		const FGameplayTag& ParentContainerTag = ContainerSetting.ParentContainerTag;
 		const FGameplayTag& ContainerTag = ContainerSetting.ContainerTag;
 		const TArray<TObjectPtr<AActor>>& Actors = ContainerSetting.AutoInjectActors;
@@ -98,7 +98,7 @@ void UDIContainerWorldSubsystem::OnWorldBeginPlay(UWorld& InWorld)
 			Builder->RegisterAutoInjectObject(Actor);
 		}
 		BuildAndRegisterContainer(Builder, *TaggedContainerRegistry,
-		                          SettingAssetPath, ParentContainerTag, ContainerTag,
+		                          TypeRegistrationAssetPath, ParentContainerTag, ContainerTag,
 		                          ManagedContainers);
 
 		if (ContainerTag.IsValid())
