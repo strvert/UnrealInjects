@@ -1,5 +1,9 @@
 #include "DIManagedContainer.h"
 
+#include "Engine/GameInstance.h"
+#include "Subsystems/SubsystemCollection.h"
+#include "GameFramework/WorldSettings.h"
+
 #include "DIContainer.h"
 #include "DIContainerBuilder.h"
 #include "DITypeRegistrationAsset.h"

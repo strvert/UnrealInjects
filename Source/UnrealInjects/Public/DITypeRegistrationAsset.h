@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Engine/DataAsset.h"
 #include "DITypeRegistrationAsset.generated.h"
 
 class UDIRegisterType;

@@ -1,5 +1,9 @@
 #pragma once
 #include "CoreMinimal.h"
+
+#include "UObject/Interface.h"
+#include "Templates/SubclassOf.h"
+
 #include "IDITypeRegistry.h"
 #include "DITypeRegistry_RegisterActorsFromLevel.generated.h"
 
@@ -32,10 +36,10 @@ class UDIRegisterType_RegisterActorsFromLevelBase : public UDIRegisterType
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "")
 	FName ActorTag;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "")
 	bool bNeedInject;
 
 	virtual UClass* GetTypeRegistryClass() const override
@@ -56,7 +60,7 @@ class UDIRegisterType_RegisterActorsWithClassFromLevel : public UDIRegisterType_
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "")
 	TObjectPtr<UClass> ClassType;
 
 	virtual UClass* GetKeyClassType() const override
@@ -71,7 +75,7 @@ class UDIRegisterType_RegisterActorsWithInterfaceFromLevel : public UDIRegisterT
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, meta = (AllowAbstract))
+	UPROPERTY(EditAnywhere, Category = "", meta = (AllowAbstract))
 	TSubclassOf<UInterface> InterfaceType;
 
 	virtual UClass* GetKeyClassType() const override

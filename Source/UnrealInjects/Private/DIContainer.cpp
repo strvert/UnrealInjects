@@ -1,8 +1,12 @@
 #include "DIContainer.h"
 
+#include "Engine/World.h"
+#include "UObject/Class.h"
+#include "UObject/Package.h"
+#include "UObject/MetaData.h"
+
 #include "DILogChannels.h"
 #include "IDITypeRegistry.h"
-#include "EntitySystem/MovieSceneComponentDebug.h"
 #include "LifecycleEvent/DIWorldEventSource.h"
 #include "LifecycleEvent/Common/IDICleanup.h"
 #include "LifecycleEvent/Common/IDIConstruct.h"
@@ -131,7 +135,7 @@ void UDIContainer::AddType(const UDIRegisterType* RegisterType)
 
 bool UDIContainer::InjectDependencies(UObject* Object)
 {
-	return InjectDependenciesToMethods(Object) && InjectDependenciesToProperties(Object);
+	return InjectDependenciesToMethods(Object); // && InjectDependenciesToProperties(Object);
 }
 
 void UDIContainer::Cleanup()
@@ -146,7 +150,7 @@ void UDIContainer::Cleanup()
 		{
 			IDIEventCleanupBP::Execute_DI_Cleanup(Object);
 		}
-		
+
 		// Object->ConditionalBeginDestroy();
 	}
 }
@@ -158,25 +162,21 @@ bool UDIContainer::InjectDependenciesToMethods(UObject* Object)
 		UE_LOG(LogUnrealInjects, Error, TEXT("InjectDependenciesToMethods: Object is nullptr"));
 		return false;
 	}
-	const UClass* ClassType = Object->GetClass();
 
-	TArray<FName> FunctionNames;
-	ClassType->GenerateFunctionList(FunctionNames);
+	const UClass* ClassType = Object->GetClass();
 
 	static FName InjectTag = FName(TEXT("InjectDependencies"));
 
-	for (const FName& FunctionName : FunctionNames)
+	for (TFieldIterator<UFunction> FunctionIter(ClassType, EFieldIterationFlags::None); FunctionIter; ++FunctionIter)
 	{
-		UFunction* Function = ClassType->FindFunctionByName(FunctionName);
-
-		if (!Function)
-		{
-			continue;
-		}
+		UFunction* Function = *FunctionIter;
 
 		const bool bIsNative = Function->IsNative();
-		if ((bIsNative && Function->HasMetaData(InjectTag)) ||
-			(!bIsNative && FunctionName == InjectTag))
+		UPackage* Package = Function->GetOutermost();
+
+		if (UMetaData* MetaData = Package->GetMetaData();
+			(!bIsNative && Function->GetName() == InjectTag) ||
+			(bIsNative && MetaData->FindValue(Function, InjectTag)))
 		{
 			UE_LOG(LogUnrealInjects, Log, TEXT("Injecting %s"), *Function->GetName());
 			if (!InjectMethodArguments(Object, Function))
@@ -212,23 +212,24 @@ bool UDIContainer::InjectMethodArguments(UObject* Object, UFunction* Method)
 	return true;
 }
 
-bool UDIContainer::InjectDependenciesToProperties(UObject* Object)
-{
-	const UClass* ClassType = Object->GetClass();
-
-	for (TFieldIterator<FProperty> PropIt(ClassType); PropIt; ++PropIt)
-	{
-		if (const FProperty* Property = *PropIt; Property->HasMetaData("Inject"))
-		{
-			if (!ResolveAndSetField(Object, Property))
-			{
-				UE_LOG(LogUnrealInjects, Error, TEXT("Failed to resolve and set field (%s)"), *Property->GetName());
-				return false;
-			}
-		}
-	}
-	return true;
-}
+// bool UDIContainer::InjectDependenciesToProperties(UObject* Object)
+// {
+// 	const UClass* ClassType = Object->GetClass();
+// 	
+// 	for (TFieldIterator<FProperty> PropIt(ClassType); PropIt; ++PropIt)
+// 	{
+// 		
+// 		if (const FProperty* Property = *PropIt; Property->HasMetaData("Inject"))
+// 		{
+// 			if (!ResolveAndSetField(Object, Property))
+// 			{
+// 				UE_LOG(LogUnrealInjects, Error, TEXT("Failed to resolve and set field (%s)"), *Property->GetName());
+// 				return false;
+// 			}
+// 		}
+// 	}
+// 	return true;
+// }
 
 void UDIContainer::InjectLifecycleEvents(UObject* Object, const UClass* KeyType)
 {

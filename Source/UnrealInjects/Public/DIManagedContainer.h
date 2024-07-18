@@ -1,5 +1,9 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "Subsystems/WorldSubsystem.h"
+#include "Engine/AssetUserData.h"
+#include "Engine/DeveloperSettings.h"
 #include "GameplayTagContainer.h"
 #include "DIManagedContainer.generated.h"
 
@@ -11,7 +15,7 @@ struct FDIManagedContainerSetting
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, meta = (AllowedClasses = "/Script/UnrealInjects.DITypeRegistrationAsset"))
+	UPROPERTY(EditAnywhere, meta = (AllowedClasses = "/Script/UnrealInjects.DITypeRegistrationAsset"), Category = "")
 	FSoftObjectPath TypeRegistrationAssetPath;
 };
 
@@ -20,16 +24,16 @@ struct FDIManagedContainerSetting_World : public FDIManagedContainerSetting
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, meta = (InlineEditConditionToggle))
+	UPROPERTY(EditAnywhere, meta = (InlineEditConditionToggle), Category = "")
 	bool bUseParentContainer = false;
 
-	UPROPERTY(EditAnywhere, meta = (EditCondition = "bUseParentContainer", Categories = "UnrealInjects.Container.GameInstance"))
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "bUseParentContainer", Categories = "UnrealInjects.Container.GameInstance"), Category = "")
 	FGameplayTag ParentContainerTag;
 
-	UPROPERTY(EditAnywhere, meta = (Categories = "UnrealInjects.Container.World"))
+	UPROPERTY(EditAnywhere, meta = (Categories = "UnrealInjects.Container.World"), Category = "")
 	FGameplayTag ContainerTag;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "")
 	TArray<TObjectPtr<AActor>> AutoInjectActors;
 };
 
@@ -38,7 +42,7 @@ struct FDIManagedContainerSetting_GameInstance : public FDIManagedContainerSetti
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, meta = (Categories = "UnrealInjects.Container.GameInstance"))
+	UPROPERTY(EditAnywhere, meta = (Categories = "UnrealInjects.Container.GameInstance"), Category = "")
 	FGameplayTag ContainerTag;
 };
 
@@ -49,7 +53,7 @@ class UDISettings : public UDeveloperSettings
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(config, EditAnywhere)
+	UPROPERTY(config, EditAnywhere, Category = "")
 	TArray<FDIManagedContainerSetting_GameInstance> ManagedContainersForGameInstance;
 };
 

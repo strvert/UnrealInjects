@@ -41,7 +41,6 @@ public class UnrealInjects : ModuleRules
 				"Slate",
 				"SlateCore",
 				"DeveloperSettings",
-				"AssetTools",
 				"GameplayTags"
 				// ... add private dependencies that you statically link with here ...	
 			}

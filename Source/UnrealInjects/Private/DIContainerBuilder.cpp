@@ -1,5 +1,8 @@
 #include "DIContainerBuilder.h"
 
+#include "Engine/World.h"
+#include "Engine/GameInstance.h"
+
 #include "DITypeRegistrationAsset.h"
 #include "DIContainer.h"
 #include "DILogChannels.h"
@@ -22,8 +25,7 @@ UDIContainer* UDIContainerBuilder::BuildContainer()
 	{
 		const UGameInstance* GameInstance = World->GetGameInstance();
 		check(GameInstance);
-		const UDITaggedContainerRegistry* TaggedContainerRegistry
-			= GameInstance->GetSubsystem<UDITaggedContainerRegistry>();
+		const UDITaggedContainerRegistry* TaggedContainerRegistry = GameInstance->GetSubsystem<UDITaggedContainerRegistry>();
 		check(TaggedContainerRegistry);
 
 		if (UDIContainer* TaggedContainer = TaggedContainerRegistry->FindContainer(ParentContainerTag))

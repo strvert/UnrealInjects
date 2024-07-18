@@ -64,10 +64,10 @@ class UDIRegisterType_Object : public UDIRegisterType
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "")
 	TSubclassOf<UObject> ClassType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "")
 	EDIContainerLifetime Lifetime = EDIContainerLifetime::Scoped;
 
 	virtual UClass* GetTypeRegistryClass() const override

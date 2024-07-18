@@ -39,7 +39,7 @@ private:
 
 	bool InjectDependenciesToMethods(UObject* Object);
 	bool InjectMethodArguments(UObject* Object, UFunction* Method);
-	bool InjectDependenciesToProperties(UObject* Object);
+	// bool InjectDependenciesToProperties(UObject* Object);
 
 	void InjectLifecycleEvents(UObject* Object, const UClass* KeyType);
 	void InjectCommonLifecycleEvents(UObject* Object, const UClass* KeyType);
